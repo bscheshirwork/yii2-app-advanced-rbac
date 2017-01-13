@@ -38,16 +38,57 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Login', 'url' => ['/user/security/login']];
     } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+        if (Yii::$app->user->can('administrateRbac')) {
+            $menuItems[] = [
+                'label' => 'RBAC',
+                'options' => ['class' => 'header'],
+                'url' => '#',
+                'items' => [
+                    [
+                        'label' => 'Графическое представление',
+                        'url' => ['/rbac'],
+                        'linkOptions' => ['target' => '_blank'],
+                    ],
+                    ['label' => 'Администрирование', 'url' => ['/admin']],
+                    ['label' => 'Пути', 'url' => ['/admin/route']],
+                    ['label' => 'Разрешения', 'url' => ['/admin/permission']],
+                    ['label' => 'Меню', 'url' => ['/admin/menu']],
+                    ['label' => 'Роли', 'url' => ['/admin/role']],
+                ],
+            ];
+        }
+
+        if (Yii::$app->user->can('administrateUser')) {
+            $menuItems[] = ['label' => 'Пользователи', 'url' => ['/user/admin/index']];
+        }
+
+        $menuItems[] = [
+            'label' => Yii::$app->user->identity->username,
+            'options' => ['class' => 'header'],
+            'url' => '#',
+            'items' => [
+                ['label' => Yii::$app->user->identity->username, 'options' => ['class' => 'header']],
+                ['label' => 'Профиль', 'url' => ['/user/settings/profile']],
+                ['label' => 'Аккаунт', 'url' => ['/user/settings/account']],
+                [
+                    'label' => 'Выход',
+                    'icon' => 'fa fa-share',
+                    'url' => ['/user/security/logout'],
+                    'template' => '<a href="{url}" data-method = "post">{icon} {label}</a>',
+                    'linkOptions' => ['data-method' => 'post'],
+                ],
+                '<li>'
+                . Html::beginForm(['/user/security/logout'], 'post')
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>',
+            ],
+        ];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

@@ -11,16 +11,58 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'user' => [
+            // 'as backend' => 'dektrium\user\filters\BackendFilter',
+            'controllerMap' => [
+                'admin' => [
+                    'class' => 'dektrium\user\controllers\AdminController',
+                    'as access' => [
+                        'class' => 'yii\filters\AccessControl',
+                        'rules' => [
+                            [
+                                'allow' => true,
+                                'roles' => ['administrateUser'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'rbac' => [
+            'class' => 'githubjeka\rbac\Module',
+            'as access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['administrateRbac'],
+                    ],
+                ],
+            ],
+        ],
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+            'as access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['administrateRbac'],
+                    ],
+                ],
+            ],
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-        ],
+//        'user' => [
+//            'identityClass' => 'common\models\User',
+//            'enableAutoLogin' => true,
+//            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+//        ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
