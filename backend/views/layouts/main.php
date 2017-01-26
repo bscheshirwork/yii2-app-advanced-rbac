@@ -47,21 +47,21 @@ AppAsset::register($this);
                 'url' => '#',
                 'items' => [
                     [
-                        'label' => 'Графическое представление',
+                        'label' => 'Diagram view',
                         'url' => ['/rbac'],
                         'linkOptions' => ['target' => '_blank'],
                     ],
-                    ['label' => 'Администрирование', 'url' => ['/admin']],
-                    ['label' => 'Пути', 'url' => ['/admin/route']],
-                    ['label' => 'Разрешения', 'url' => ['/admin/permission']],
-                    ['label' => 'Меню', 'url' => ['/admin/menu']],
-                    ['label' => 'Роли', 'url' => ['/admin/role']],
+                    ['label' => 'Administrate', 'url' => ['/admin']],
+                    ['label' => 'Routes', 'url' => ['/admin/route']],
+                    ['label' => 'Permissions', 'url' => ['/admin/permission']],
+                    ['label' => 'Menu', 'url' => ['/admin/menu']],
+                    ['label' => 'Roles', 'url' => ['/admin/role']],
                 ],
             ];
         }
 
         if (Yii::$app->user->can('administrateUser')) {
-            $menuItems[] = ['label' => 'Пользователи', 'url' => ['/user/admin/index']];
+            $menuItems[] = ['label' => 'Users', 'url' => ['/user/admin/index']];
         }
 
         $menuItems[] = [
@@ -70,15 +70,8 @@ AppAsset::register($this);
             'url' => '#',
             'items' => [
                 ['label' => Yii::$app->user->identity->username, 'options' => ['class' => 'header']],
-                ['label' => 'Профиль', 'url' => ['/user/settings/profile']],
-                ['label' => 'Аккаунт', 'url' => ['/user/settings/account']],
-                [
-                    'label' => 'Выход',
-                    'icon' => 'fa fa-share',
-                    'url' => ['/user/security/logout'],
-                    'template' => '<a href="{url}" data-method = "post">{icon} {label}</a>',
-                    'linkOptions' => ['data-method' => 'post'],
-                ],
+                ['label' => 'Profile', 'url' => ['/user/settings/profile']],
+                ['label' => 'Account', 'url' => ['/user/settings/account']],
                 '<li>'
                 . Html::beginForm(['/user/security/logout'], 'post')
                 . Html::submitButton(
