@@ -6,6 +6,3 @@
 
 class_name: FunctionalTester
 modules:
-    enabled:
-        # add framework module here
-        - \common\tests\Helper\Functional
