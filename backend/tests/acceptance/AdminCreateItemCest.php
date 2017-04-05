@@ -6,6 +6,7 @@ use \backend\tests\AcceptanceTester;
 use common\fixtures\UserFixture;
 use common\tests\Page\Login as LoginPage;
 use backend\tests\Page\AdminRoutePage as RoutePage;
+use Yii;
 
 class AdminCreateItemCest
 {
@@ -33,7 +34,8 @@ class AdminCreateItemCest
         $page = new RoutePage($I);
         $page->amOnPage();
         $I->wait(2); // wait for page to be opened
-        $I->see('Routes', 'h1');
+        Yii::$app->getModule('admin');//i18n t-category 'rbac-admin'
+        $I->see(Yii::t('rbac-admin', 'Routes'), 'h1');
         $page->addRoute('testroute');
         $I->wait(2); // wait for page to be opened
         $I->see('testroute');

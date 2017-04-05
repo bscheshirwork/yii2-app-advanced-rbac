@@ -33,7 +33,6 @@ class UpdateUserAccountCest
         $user = $I->grabFixture('user', 'user');
         $loginPage->login($user->email, 'qwerty');
         $I->wait(2); // wait for page to be opened
-
         $I->makeScreenshot('updateUser_01_login');
 
         $page = new UpdatePage($I, ['id' => $user->id]);
@@ -54,7 +53,7 @@ class UpdateUserAccountCest
         $I->makeScreenshot('updateUser_03_update_successful');
 
         $I->click('userfoobar');
-        $I->click(Yii::t('main', 'Logout ({userName})', ['userName' => 'userfoobar']));
+        $I->click(Yii::t('main', 'Logout ({username})', ['username' => 'userfoobar']));
         $I->wait(2); // wait for page to be opened
         $I->makeScreenshot('updateUser_04_logout');
 
