@@ -11,14 +11,20 @@ use Yii;
 
 class CreateUserCest
 {
-    public function _before(FunctionalTester $I)
-    {
-        $I->haveFixtures([
+    /**
+     * Load fixtures before db transaction begin
+     * Called in _before()
+     * @see \Codeception\Module\Yii2::_before()
+     * @see \Codeception\Module\Yii2::loadFixtures()
+     * @return array
+     */
+    public function _fixtures(){
+        return [
             'user' => [
                 'class' => UserFixture::className(),
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
-        ]);
+        ];
     }
 
     /**
@@ -26,6 +32,8 @@ class CreateUserCest
      */
     public function createUser(FunctionalTester $I)
     {
+        $model = new User;
+
         $I->wantTo('ensure that user creation works');
 
         $loginPage = new LoginPage($I);
@@ -37,12 +45,12 @@ class CreateUserCest
         $I->amGoingTo('try to create user with empty fields');
         $page->create('', '', '');
         $I->expectTo('see validations errors');
-        $I->see('Username cannot be blank.');
-        $I->see('Email cannot be blank.');
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('username')]));
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('email')]));
 
         $I->amGoingTo('try to create user');
         $page->create('foobar', 'foobar@example.com', 'foobar');
-        $I->see('User has been created');
+        $I->see(Yii::t('user', 'User has been created'));
         $I->seeRecord(User::className(), ['username' => 'foobar']);
 
         Yii::$app->user->logout();
