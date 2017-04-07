@@ -34,6 +34,7 @@ class UpdateUserAccountCest
     {
         $I->wantTo('ensure that user update works');
 
+        $model = new User;
         $loginPage = new LoginPage($I);
 
         $user = $I->grabFixture('user', 'user');
@@ -44,12 +45,12 @@ class UpdateUserAccountCest
         $I->amGoingTo('try to update user with empty fields');
         $page->update('', '', '');
         $I->expectTo('see validations errors');
-        $I->see('Username cannot be blank.');
-        $I->see('Email cannot be blank.');
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('username')]));
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('email')]));
 
         $I->amGoingTo('try to update user');
         $page->update('userfoobar', 'updated_user@example.com', 'new_pass');
-        $I->see('Account details have been updated');
+        $I->see(Yii::t('user', 'Account details have been updated'));
         $I->seeRecord(User::className(), ['username' => 'userfoobar']);
 
         Yii::$app->user->logout();
@@ -66,6 +67,7 @@ class UpdateUserAccountCest
     {
         $I->wantTo('ensure that another user update works');
 
+        $model = new User;
         $loginPage = new LoginPage($I);
 
         $user = $I->grabFixture('user', 'user');
@@ -78,12 +80,12 @@ class UpdateUserAccountCest
         $I->amGoingTo('try to update user with empty fields');
         $page->update('', '', '');
         $I->expectTo('see validations errors');
-        $I->see('Username cannot be blank.');
-        $I->see('Email cannot be blank.');
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('username')]));
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('email')]));
 
         $I->amGoingTo('try to update user');
         $page->update('userfoobar', 'updated_user@example.com', 'new_pass');
-        $I->see('Account details have been updated');
+        $I->see(Yii::t('user', 'Account details have been updated'));
         $I->seeRecord(User::className(), ['username' => 'userfoobar']);
 
         Yii::$app->user->logout();
