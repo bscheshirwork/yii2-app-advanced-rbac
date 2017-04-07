@@ -10,6 +10,7 @@ use dektrium\user\models\Token;
 use common\tests\Page\Login as LoginPage;
 use frontend\tests\Page\Recovery as RecoveryPage;
 use frontend\tests\Page\RecoveryReset as ResetPage;
+use Yii;
 use yii\helpers\Html;
 
 class RecoveryCest
@@ -37,7 +38,7 @@ class RecoveryCest
     /**
      * @param FunctionalTester $I
      */
-    public function loginUser(FunctionalTester $I)
+    public function recoveryUserPassword(FunctionalTester $I)
     {
         $page = new RecoveryPage($I);
         $resetPage = new ResetPage($I);
@@ -48,12 +49,12 @@ class RecoveryCest
         $I->amGoingTo('try to request recovery token for unconfirmed account');
         $user = $I->grabFixture('user', 'unconfirmed');
         $page->recover($user->email);
-        $I->see('An email has been sent with instructions for resetting your password');
+        $I->see(Yii::t('user', 'An email has been sent with instructions for resetting your password'));
 
         $I->amGoingTo('try to request recovery token');
         $user = $I->grabFixture('user', 'user');
         $page->recover($user->email);
-        $I->see('An email has been sent with instructions for resetting your password');
+        $I->see(Yii::t('user', 'An email has been sent with instructions for resetting your password'));
         $user = $I->grabRecord(User::className(), ['email' => $user->email]);
         $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_RECOVERY]);
         /** @var yii\swiftmailer\Message $message */
@@ -65,17 +66,17 @@ class RecoveryCest
         $user = $I->grabFixture('user', 'user_with_expired_recovery_token');
         $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_RECOVERY]);
         $resetPage->check(['id' => $user->id, 'code' => $token->code]);
-        $I->see('Recovery link is invalid or expired. Please try requesting a new one.');
+        $I->see(Yii::t('user', 'Recovery link is invalid or expired. Please try requesting a new one.'));
 
         $I->amGoingTo('reset password');
         $user = $I->grabFixture('user', 'user_with_recovery_token');
         $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_RECOVERY]);
         $resetPage->reset('newpass', ['id' => $user->id, 'code' => $token->code]);
-        $I->see('Your password has been changed successfully.');
+        $I->see(Yii::t('user', 'Your password has been changed successfully.'));
 
         $loginPage->login($user->email, 'qwerty');
-        $I->see('Invalid login or password');
+        $I->see(Yii::t('user', 'Invalid login or password'));
         $loginPage->login($user->email, 'newpass');
-        $I->dontSee('Invalid login or password');
+        $I->dontSee(Yii::t('user', 'Invalid login or password'));
     }
 }

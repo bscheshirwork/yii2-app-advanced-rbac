@@ -14,7 +14,10 @@ class Recovery
      */
 
     public static $emailField = '#recovery-form-email';
-    public static $submitButton = 'form[action*="recovery"] button[type=submit]';
+    /**
+     * @see \dektrium\user\Module::$urlRules
+     */
+    public static $submitButton = 'form[action*="forgot"] button[type=submit]';
 
     /**
      * @var \Codeception\Actor

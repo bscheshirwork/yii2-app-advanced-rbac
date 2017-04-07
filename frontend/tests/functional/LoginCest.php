@@ -2,9 +2,11 @@
 
 namespace frontend\tests\functional;
 
+use dektrium\user\models\LoginForm;
 use \frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use common\tests\Page\Login as LoginPage;
+use Yii;
 
 class LoginCest
 {
@@ -29,33 +31,34 @@ class LoginCest
      */
     public function loginUser(FunctionalTester $I)
     {
+        $model = \Yii::createObject(LoginForm::className());
         $page = new LoginPage($I);
 
         $I->amGoingTo('try to login with empty credentials');
         $page->login('', '');
         $I->expectTo('see validations errors');
-        $I->see('Login cannot be blank.');
-        $I->see('Password cannot be blank.');
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('login')]));
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('password')]));
 
         $I->amGoingTo('try to login with unconfirmed account');
         $user = $I->grabFixture('user', 'unconfirmed');
         $page->login($user->email, 'qwerty');
-        $I->see('You need to confirm your email address');
+        $I->see(Yii::t('user', 'You need to confirm your email address'));
 
         $I->amGoingTo('try to login with blocked account');
         $user = $I->grabFixture('user', 'blocked');
         $page->login($user->email, 'qwerty');
-        $I->see('Your account has been blocked');
+        $I->see(Yii::t('user', 'Your account has been blocked'));
 
         $I->amGoingTo('try to login with wrong credentials');
         $user = $I->grabFixture('user', 'user');
         $page->login($user->email, 'wrong');
         $I->expectTo('see validations errors');
-        $I->see('Invalid login or password');
+        $I->see(Yii::t('user', 'Invalid login or password'));
 
         $I->amGoingTo('try to login with correct credentials');
         $page->login($user->email, 'qwerty');
-        $I->dontSee('Login');
+        $I->dontSee(Yii::t('user', 'Login'));
         $I->see($user->username);
 
     }
