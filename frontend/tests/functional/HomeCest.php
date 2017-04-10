@@ -3,6 +3,7 @@
 namespace frontend\tests\functional;
 
 use frontend\tests\FunctionalTester;
+use Yii;
 
 class HomeCest
 {
@@ -10,8 +11,8 @@ class HomeCest
     {
         $I->amOnPage(\Yii::$app->homeUrl);
         $I->see('My Company');
-        $I->seeLink('About');
-        $I->click('About');
+        $I->seeLink(Yii::t('main', 'About'));
+        $I->click(Yii::t('main', 'About'));
         $I->see('This is the About page.');
     }
 }

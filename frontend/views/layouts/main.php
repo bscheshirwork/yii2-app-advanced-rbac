@@ -36,25 +36,25 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => Yii::t('main', 'Home'), 'url' => ['/site/index']],
+        ['label' => Yii::t('main', 'About'), 'url' => ['/site/about']],
+        ['label' => Yii::t('main', 'Contact'), 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/user/registration/register']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/user/security/login']];
+        $menuItems[] = ['label' => Yii::t('main', 'Signup'), 'url' => ['/user/registration/register']];
+        $menuItems[] = ['label' => Yii::t('main', 'Login'), 'url' => ['/user/security/login']];
     } else {
         $menuItems[] = [
             'label' => Yii::$app->user->identity->username,
             'items' => [
                 '<li class="dropdown-header">' . Yii::$app->user->identity->username . '</li>',
-                ['label' => 'Profile', 'url' => ['/user/settings/profile']],
-                ['label' => 'Account', 'url' => ['/user/settings/account']],
+                ['label' => Yii::t('main', 'Profile'), 'url' => ['/user/settings/profile']],
+                ['label' => Yii::t('main', 'Account'), 'url' => ['/user/settings/account']],
                 '<li class="divider"></li>',
                 '<li>'
                 . Html::beginForm(['/user/security/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    Yii::t('main', 'Logout ({username})', ['username' => Yii::$app->user->identity->username]),
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
