@@ -2,12 +2,14 @@
 
 namespace frontend\tests\functional;
 
+use dektrium\user\models\RegistrationForm;
 use \frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use dektrium\user\models\User;
 use dektrium\user\models\Token;
 use common\tests\Page\Login as LoginPage;
 use frontend\tests\Page\Registration as RegistrationPage;
+use Yii;
 use yii\helpers\Html;
 use dektrium\user\Module;
 
@@ -47,30 +49,31 @@ class RegistrationCest
             'enableConfirmation'       => false,
             'enableGeneratingPassword' => false,
         ]);
-
+        $model = \Yii::createObject(RegistrationForm::className());
         $page = new RegistrationPage($I);
 
         $I->amGoingTo('try to register with empty credentials');
         $page->register('', '', '');
-        $I->see('Username cannot be blank');
-        $I->see('Email cannot be blank');
-        $I->see('Password cannot be blank');
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('username')]));
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('email')]));
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('password')]));
 
         $I->amGoingTo('try to register with already used email and username');
         $user = $I->grabFixture('user', 'user');
 
         $page->register($user->email, $user->username, 'qwerty');
-        $I->see(Html::encode('This username has already been taken'));
-        $I->see(Html::encode('This email address has already been taken'));
+        $I->see(Html::encode(Yii::t('user', 'This username has already been taken')));
+        $I->see(Html::encode(Yii::t('user', 'This email address has already been taken')));
 
         $page->register('tester@example.com', 'tester', 'tester');
-        $I->see('Your account has been created and a message with further instructions has been sent to your email');
+        $I->see(Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
         $user = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
         $I->assertTrue($user->isConfirmed);
 
         $page = new LoginPage($I);
         $page->login('tester', 'tester');
-        $I->see('Logout');
+        $I->dontSee(Yii::t('user', 'Login'));
+        $I->see($user->username);
     }
 
     /**
@@ -84,7 +87,7 @@ class RegistrationCest
         ]);
         $page = new RegistrationPage($I);
         $page->register('tester@example.com', 'tester', 'tester');
-        $I->see('Your account has been created and a message with further instructions has been sent to your email');
+        $I->see(Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
         $user  = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
         $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRMATION]);
         /** @var yii\swiftmailer\Message $message */
@@ -106,13 +109,13 @@ class RegistrationCest
         ]);
         $page = new RegistrationPage($I);
         $page->register('tester@example.com', 'tester');
-        $I->see('Your account has been created and a message with further instructions has been sent to your email');
+        $I->see(Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
         $user = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
         $I->assertEquals('tester', $user->username);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();
         $I->assertArrayHasKey($user->email, $message->getTo());
-        $I->assertContains('We have generated a password for you', utf8_encode(quoted_printable_decode($message->getSwiftMessage()->toString())));
+        $I->assertContains(Yii::t('user', 'We have generated a password for you'), quoted_printable_decode($message->getSwiftMessage()->toString()));
     }
 
 
