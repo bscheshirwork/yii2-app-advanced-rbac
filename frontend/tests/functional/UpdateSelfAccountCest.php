@@ -2,6 +2,7 @@
 
 namespace frontend\tests\functional;
 
+use dektrium\user\models\SettingsForm;
 use \frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use frontend\fixtures\ProfileFixture;
@@ -46,18 +47,19 @@ class UpdateSelfAccountCest
 
         $user = $I->grabFixture('user', 'user');
         $I->amLoggedInAs($user);
+        $model = \Yii::createObject(SettingsForm::className()); //expect Yii::$app->user->identity
 
         $I->amGoingTo('try to update  self account with empty fields');
         $page->update('', '', '', '');
         $I->expectTo('see validations errors');
-        $I->see('Username cannot be blank.');
-        $I->see('Email cannot be blank.');
-        $I->see('Current password cannot be blank.');
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('username')]));
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('email')]));
+        $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('current_password')]));
 
         $I->amGoingTo('check that email is changing properly');
         $page->update($user->username, 'new_user@example.com', 'qwerty');
         $I->seeRecord(User::className(), ['email' => $user->email, 'unconfirmed_email' => 'new_user@example.com']);
-        $I->see('A confirmation message has been sent to your new email address');
+        $I->see(Yii::t('user', 'A confirmation message has been sent to your new email address'));
         $user  = $I->grabRecord(User::className(), ['id' => $user->id]);
         $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRM_NEW_EMAIL]);
         /** @var yii\swiftmailer\Message $message */
@@ -69,7 +71,7 @@ class UpdateSelfAccountCest
 
         $I->amGoingTo('log in using new email address before clicking the confirmation link');
         $loginPage->login('new_user@example.com', 'qwerty');
-        $I->see('Invalid login or password');
+        $I->see(Yii::t('user', 'Invalid login or password'));
 
         $I->amGoingTo('log in using new email address after clicking the confirmation link');
         $user->attemptEmailChange($token->code);
@@ -83,14 +85,14 @@ class UpdateSelfAccountCest
 
         $I->amGoingTo('reset email changing process');
         $page->update($user->username, 'user@example.com', 'qwerty');
-        $I->see('A confirmation message has been sent to your new email address');
+        $I->see(Yii::t('user', 'A confirmation message has been sent to your new email address'));
         $I->seeRecord(User::className(), [
             'id'    => 1,
             'email' => 'new_user@example.com',
             'unconfirmed_email' => 'user@example.com',
         ]);
         $page->update($user->username, 'new_user@example.com', 'qwerty');
-        $I->see('Your account details have been updated');
+        $I->see(Yii::t('user', 'Your account details have been updated'));
         $I->seeRecord(User::className(), [
             'id'    => 1,
             'email' => 'new_user@example.com',
@@ -99,7 +101,7 @@ class UpdateSelfAccountCest
 
         $I->amGoingTo('change username and password');
         $page->update('nickname', 'new_user@example.com', 'qwerty', '123654');
-        $I->see('Your account details have been updated');
+        $I->see(Yii::t('user', 'Your account details have been updated'));
         $I->seeRecord(User::className(), [
             'username' => 'nickname',
             'email'    => 'new_user@example.com',
