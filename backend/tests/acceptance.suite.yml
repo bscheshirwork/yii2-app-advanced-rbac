@@ -15,4 +15,5 @@ modules:
               - email
               - ORM
               - Fixtures
+            cleanup: false # don't wrap test in transaction
         - common\tests\Helper\Acceptance
