@@ -3,7 +3,7 @@
 namespace frontend\tests\functional;
 
 use dektrium\user\models\RegistrationForm;
-use \frontend\tests\FunctionalTester;
+use frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use dektrium\user\models\User;
 use dektrium\user\models\Token;

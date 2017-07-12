@@ -3,7 +3,7 @@
 namespace frontend\tests\functional;
 
 use dektrium\user\models\SettingsForm;
-use \frontend\tests\FunctionalTester;
+use frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use frontend\fixtures\ProfileFixture;
 use dektrium\user\models\User;

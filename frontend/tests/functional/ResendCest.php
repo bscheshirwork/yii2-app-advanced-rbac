@@ -2,7 +2,7 @@
 
 namespace frontend\tests\functional;
 
-use \frontend\tests\FunctionalTester;
+use frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use frontend\tests\Page\Resend as ResendPage;
 use Yii;

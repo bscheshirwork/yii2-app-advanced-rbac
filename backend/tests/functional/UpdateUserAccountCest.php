@@ -2,7 +2,7 @@
 
 namespace backend\tests\functional;
 
-use \backend\tests\FunctionalTester;
+use backend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use dektrium\user\models\User;
 use common\tests\Page\Login as LoginPage;

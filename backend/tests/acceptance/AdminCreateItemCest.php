@@ -2,7 +2,7 @@
 
 namespace backend\tests\acceptance;
 
-use \backend\tests\AcceptanceTester;
+use backend\tests\AcceptanceTester;
 use common\fixtures\UserFixture;
 use common\tests\Page\Login as LoginPage;
 use backend\tests\Page\AdminRoutePage as RoutePage;

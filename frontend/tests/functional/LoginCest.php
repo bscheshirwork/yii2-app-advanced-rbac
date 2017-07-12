@@ -3,7 +3,7 @@
 namespace frontend\tests\functional;
 
 use dektrium\user\models\LoginForm;
-use \frontend\tests\FunctionalTester;
+use frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use common\tests\Page\Login as LoginPage;
 use Yii;

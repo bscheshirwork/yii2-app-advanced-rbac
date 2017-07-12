@@ -2,7 +2,7 @@
 
 namespace backend\tests\functional;
 
-use \backend\tests\FunctionalTester;
+use backend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use backend\tests\Page\AdminRoutePage as RoutePage;
 

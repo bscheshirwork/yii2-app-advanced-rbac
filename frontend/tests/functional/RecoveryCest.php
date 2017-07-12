@@ -2,7 +2,7 @@
 
 namespace frontend\tests\functional;
 
-use \frontend\tests\FunctionalTester;
+use frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use frontend\fixtures\TokenFixture;
 use dektrium\user\models\User;
