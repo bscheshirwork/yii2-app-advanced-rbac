@@ -10,14 +10,15 @@ use Yii;
 
 class LoginCest
 {
-    /**
+     /**
      * Load fixtures before db transaction begin
      * Called in _before()
      * @see \Codeception\Module\Yii2::_before()
      * @see \Codeception\Module\Yii2::loadFixtures()
      * @return array
      */
-    public function _fixtures(){
+    public function _fixtures()
+    {
         return [
             'user' => [
                 'class' => UserFixture::className(),

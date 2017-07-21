@@ -8,8 +8,12 @@ use common\tests\Page\Login as LoginPage;
 use dektrium\user\models\LoginForm;
 use Yii;
 
+/**
+ * Class LoginCest
+ */
 class LoginCest
 {
+
     /**
      * Load fixtures before db transaction begin
      * Called in _before()
@@ -17,7 +21,8 @@ class LoginCest
      * @see \Codeception\Module\Yii2::loadFixtures()
      * @return array
      */
-    public function _fixtures(){
+    public function _fixtures()
+    {
         return [
             'user' => [
                 'class' => UserFixture::className(),
