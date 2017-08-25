@@ -52,6 +52,12 @@ return [
                     ],
                 ],
             ],
+            'defaultUrlLabel' => new class {
+                public function __toString()
+                {
+                    return \Yii::t('main', 'Administrate RBAC');
+                }
+            },
         ],
     ],
     'components' => [

@@ -10,6 +10,7 @@ return [
     'Logout ({username})' => 'Выход ({username})',
     'Graphical representation' => 'Графическое представление',
     'RBAC' => 'RBAC',
+    'Administrate RBAC' => 'Администрирование RBAC',
     'Administrate' => 'Администрирование',
     'Routes' => 'Пути',
     'Menu' => 'Меню',
