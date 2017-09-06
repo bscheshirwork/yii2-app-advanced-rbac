@@ -10,6 +10,8 @@ modules:
             browser: chrome
         - \bscheshirwork\Codeception\Module\DbYii2Config:
             dump: ../common/tests/_data/dump.sql #relative path from "codeception.yml"
+            populate: true
+            cleanup: true
         - Yii2:
             part:
               - email

@@ -33,6 +33,7 @@ class ContactCest
 
     public function checkContactSubmitNotCorrectEmail(FunctionalTester $I)
     {
+        $model = new ContactForm;
         $I->submitForm('#contact-form', [
             'ContactForm[name]' => 'tester',
             'ContactForm[email]' => 'tester.email',
