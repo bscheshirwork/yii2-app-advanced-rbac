@@ -6,7 +6,8 @@ return yii\helpers\ArrayHelper::merge(
     [
         'components' => [
             'db' => [
-                'dsn' => 'mysql:host=localhost;dbname=yii2advanced_test',
+                // Uncomment this line if your run Codeception test without Docker
+                // 'dsn' => 'mysql:host=localhost;dbname=yii2advanced_test',
             ]
         ],
     ]
