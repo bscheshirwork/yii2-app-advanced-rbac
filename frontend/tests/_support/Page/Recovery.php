@@ -17,7 +17,7 @@ class Recovery
     /**
      * @see \dektrium\user\Module::$urlRules
      */
-    public static $submitButton = 'form[action*="request"] button[type=submit]'; // <form id="password-recovery-form" action="/index-test.php?r=user%2Frecovery%2Frequest" method="post">
+    public static $submitButton = 'form[id*="recovery"] button[type=submit]'; // <form id="password-recovery-form" action="/index-test.php?r=user%2Frecovery%2Frequest" method="post">
 
     /**
      * @var \Codeception\Actor
