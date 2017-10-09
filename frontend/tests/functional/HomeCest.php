@@ -10,7 +10,7 @@ class HomeCest
     public function checkOpen(FunctionalTester $I)
     {
         $I->amOnPage(\Yii::$app->homeUrl);
-        $I->see('My Company');
+        $I->see('My Application');
         $I->seeLink(Yii::t('main', 'About'));
         $I->click(Yii::t('main', 'About'));
         $I->see('This is the About page.');
