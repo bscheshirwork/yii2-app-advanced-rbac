@@ -3,7 +3,6 @@
 namespace api\common\controllers;
 
 
-use api\common\models\ContactForm;
 use Yii;
 use yii\rest\Controller;
 use yii\web\HttpException;
@@ -35,13 +34,27 @@ class FeedbackController extends Controller
     }
 
     /**
+     * @param string $modelClassAlias
+     * @return Yii\base\Model
+     */
+    protected static function newModel($modelClassAlias)
+    {
+        switch ($modelClassAlias) {
+            case 'ContactForm':
+                return new \api\common\models\ContactForm;
+        }
+
+        return null;
+    }
+
+    /**
      * Contact form send
      * @return null|mixed
      * @throws HttpException
      */
     public function actionCreate()
     {
-        $model = new ContactForm();
+        $model = static::newModel('ContactForm');
         if ($model->load(Yii::$app->request->post(), '') && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
                 Yii::$app->response->statusCode = 204;
@@ -53,7 +66,7 @@ class FeedbackController extends Controller
             }
         }
 
-        if($model->hasErrors()){
+        if ($model->hasErrors()) {
             return $this->serializeData($model);
         }
 
