@@ -10,6 +10,15 @@ use yii\web\HttpException;
 class FeedbackController extends Controller
 {
     /**
+     * representation of model ContactForm
+     * separated by api version
+     * will be redefine in versioned controllers
+     * we need create separated public property for each model
+     * @var string
+     */
+    public $modelNameOfContactForm = \api\common\models\ContactForm::class;
+
+    /**
      * @inheritdoc
      */
     public function actions()
@@ -34,27 +43,14 @@ class FeedbackController extends Controller
     }
 
     /**
-     * @param string $modelClassAlias
-     * @return Yii\base\Model
-     */
-    protected static function newModel($modelClassAlias)
-    {
-        switch ($modelClassAlias) {
-            case 'ContactForm':
-                return new \api\common\models\ContactForm;
-        }
-
-        return null;
-    }
-
-    /**
      * Contact form send
      * @return null|mixed
      * @throws HttpException
      */
     public function actionCreate()
     {
-        $model = static::newModel('ContactForm');
+        $model = Yii::createObject($this->modelNameOfContactForm);
+
         if ($model->load(Yii::$app->request->post(), '') && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
                 Yii::$app->response->statusCode = 204;
