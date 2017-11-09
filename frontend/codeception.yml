@@ -24,7 +24,7 @@ coverage:
     # $config_file = realpath(__DIR__) . DIRECTORY_SEPARATOR . $_SERVER['HTTP_X_CODECEPTION_CODECOVERAGE_CONFIG'];
     remote_config: frontend/codeception.yml
     enabled: true
-    remote: true
+    # remote: true # change workdir in `codeception` docker image to `/var/www/html`: codecoverage of acceptance will be merged
     include:
         - models/*
         - controllers/*
