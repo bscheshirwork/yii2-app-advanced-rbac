@@ -9,3 +9,4 @@ modules:
         - Yii2
         - Asserts
         - common\tests\Helper\Functional
+        - frontend\tests\Helper\Functional

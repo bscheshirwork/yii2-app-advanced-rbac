@@ -17,3 +17,21 @@ modules:
     config:
         Yii2:
             configFile: 'config/test-local.php'
+coverage:
+    # from nginx-conf-test/nginx.conf
+    c3_url: http://nginx:8080/index-test.php
+    # redefine `php-code/codeception.yml` for `c3.php`. Relative to `c3.php` dir:
+    # $config_file = realpath(__DIR__) . DIRECTORY_SEPARATOR . $_SERVER['HTTP_X_CODECEPTION_CODECOVERAGE_CONFIG'];
+    remote_config: frontend/codeception.yml
+    enabled: true
+    # remote: true # change workdir in `codeception` docker image to `/var/www/html`: codecoverage of acceptance will be merged
+    include:
+        - models/*
+        - controllers/*
+    exclude:
+        - assets/*
+        - config/*
+        - runtime/*
+        - views/*
+        - web/*
+        - tests/*
