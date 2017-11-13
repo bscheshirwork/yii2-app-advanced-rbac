@@ -50,7 +50,7 @@ class UpdateSelfAccountCest
 
         $I->amGoingTo('try to update self account with empty fields');
         $page->update('', '', '', '');
-        $I->wait(2); // wait for page to be opened
+        $I->wait(4); // wait for page to be opened with all errors
         $I->makeScreenshot('updateSelfAccount_02_update_validation_error');
         $I->expectTo('see validations errors');
         $I->see(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => Yii::t('user', 'Username')]));

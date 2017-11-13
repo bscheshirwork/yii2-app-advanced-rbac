@@ -16,14 +16,14 @@ class ContactCest
 
     public function checkContact(FunctionalTester $I)
     {
-        $I->see(Yii::t('main', 'Contact', 'h1'));
+        $I->see(Yii::t('main', 'Contact us', 'h1'));
     }
 
     public function checkContactSubmitNoData(FunctionalTester $I)
     {
         $model = new ContactForm;
         $I->submitForm('#contact-form', []);
-        $I->see(Yii::t('main', 'Contact', 'h1'));
+        $I->see(Yii::t('main', 'Contact us', 'h1'));
         $I->seeValidationError(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('name')]));
         $I->seeValidationError(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('email')]));
         $I->seeValidationError(Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => $model->getAttributeLabel('subject')]));
