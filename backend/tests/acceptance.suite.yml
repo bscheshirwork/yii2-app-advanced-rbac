@@ -17,5 +17,6 @@ modules:
               - email
               - ORM
               - Fixtures
-            cleanup: false # don't wrap test in transaction
+            cleanup: true # remove fixture in Module\Yii2::_after and load fixture in  Module\Yii2::_before. In this case data from fixtures insert to db AFTER DbYii2Config populate
+            transaction: false # don't wrap test in transaction. Acceptance tests use another db connection; i.e. transaction has no effect.
         - common\tests\Helper\Acceptance
