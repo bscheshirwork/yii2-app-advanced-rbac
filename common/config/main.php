@@ -12,6 +12,7 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
+            'cache' => 'cache',
         ],
         'i18n' => [
             'translations' => [
