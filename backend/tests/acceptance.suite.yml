@@ -1,4 +1,5 @@
-class_name: AcceptanceTester
+suite_namespace: backend\tests\acceptance
+actor: AcceptanceTester
 modules:
     enabled:
 # See docker-codeception-run/docker-compose.yml: "ports" of service "nginx" is null; the selenium service named "browser"
