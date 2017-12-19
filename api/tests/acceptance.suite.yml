@@ -1,0 +1,42 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+#
+# use script of refresh `crl` if you can see `<head><title>400 The SSL certificate error</title></head>...`
+# as result of `codecept run acceptance`
+#
+# curl -v --cacert nginx-conf/ssl/ca.crt --key nginx-conf/ssl/client01.key --cert nginx-conf/ssl/client01.crt --url https://api.dev:8084/v1/feedback/create --request POST --data "name=tester&email=tester@gmail.com&subject=test&body=message body"
+
+suite_namespace: api\tests\acceptance
+actor: AcceptanceTester
+modules:
+    enabled:
+        - \api\tests\Helper\Acceptance
+        - PhpBrowser:
+            url: https://api.dev:8084/ #from Docker container can connect by Alias; Numbers of ports is internal.
+            curl: # Include TSL(SSL) settings
+                CURLOPT_SSL_VERIFYPEER: true
+                CURLOPT_SSL_VERIFYSTATUS: false
+                CURLOPT_SSL_VERIFYHOST: 2
+                CURLOPT_CAINFO: tests/_data/ca.crt
+                CURLOPT_SSLKEY: tests/_data/client01.key
+                CURLOPT_SSLCERT: tests/_data/client01.crt
+                CURLOPT_SSLCERTTYPE: 'PEM'
+                # CURLOPT_SSLCERTPASSWD: 'client01 crt example pass phrase'
+        - REST:
+            depends: PhpBrowser
+            url: v1/
+        - \bscheshirwork\Codeception\Module\DbYii2Config:
+            dump: ../common/tests/_data/dump.sql #relative path from "codeception.yml"
+            populate: true
+            cleanup: true
+        - Yii2:
+            part:
+              - email
+              - ORM
+              - Fixtures
+            cleanup: true # remove fixture in Module\Yii2::_after and load fixture in  Module\Yii2::_before. In this case data from fixtures insert to db AFTER DbYii2Config populate
+            transaction: false # don't wrap test in transaction. Acceptance tests use another db connection; i.e. transaction has no effect.

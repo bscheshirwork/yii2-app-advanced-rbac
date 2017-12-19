@@ -1,0 +1,10 @@
+# Codeception Test Suite Configuration
+#
+# Suite for unit or integration tests.
+
+suite_namespace: api\tests\unit
+actor: UnitTester
+modules:
+    enabled:
+        - Asserts
+        - \api\tests\Helper\Unit

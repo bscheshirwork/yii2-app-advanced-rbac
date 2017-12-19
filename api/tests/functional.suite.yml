@@ -1,0 +1,22 @@
+# Codeception Test Suite Configuration
+#
+# Suite for functional tests
+# Emulate web requests and make application process them
+# Include one of framework modules (Symfony2, Yii2, Laravel5) to use it
+# Remove this suite if you don't use frameworks
+
+suite_namespace: api\tests\functional
+actor: FunctionalTester
+modules:
+    enabled:
+        - Asserts
+        - \api\tests\Helper\Functional
+        # add a framework module here
+        - REST:
+            url: v1/
+            depends: Yii2
+        - \bscheshirwork\Codeception\Module\DbYii2Config:
+            dump: ../common/tests/_data/dump.sql #relative path from "codeception.yml"
+            populate: true
+            cleanup: true
+        - Yii2
