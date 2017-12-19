@@ -8,7 +8,7 @@
 # use script of refresh `crl` if you can see `<head><title>400 The SSL certificate error</title></head>...`
 # as result of `codecept run acceptance`
 #
-# curl -v --cacert nginx-conf/ssl/ca.crt --key nginx-conf/ssl/client01.key --cert nginx-conf/ssl/client01.crt --url https://api.dev:8084/v1/feedback/create --request POST --data "name=tester&email=tester@gmail.com&subject=test&body=message body"
+# curl -v --cacert api/tests/_data/ca.crt --key api/tests/_data/client01.key --cert api/tests/_data/client01.crt --url https://api.dev:8084/v1/feedback/create --request POST --data "name=tester&email=tester@gmail.com&subject=test&body=message body"
 
 suite_namespace: api\tests\acceptance
 actor: AcceptanceTester
@@ -21,9 +21,9 @@ modules:
                 CURLOPT_SSL_VERIFYPEER: true
                 CURLOPT_SSL_VERIFYSTATUS: false
                 CURLOPT_SSL_VERIFYHOST: 2
-                CURLOPT_CAINFO: tests/_data/ca.crt
-                CURLOPT_SSLKEY: tests/_data/client01.key
-                CURLOPT_SSLCERT: tests/_data/client01.crt
+                CURLOPT_CAINFO: /var/www/html/api/tests/_data/ca.crt
+                CURLOPT_SSLKEY: /var/www/html/api/tests/_data/client01.key
+                CURLOPT_SSLCERT: /var/www/html/api/tests/_data/client01.crt
                 CURLOPT_SSLCERTTYPE: 'PEM'
                 # CURLOPT_SSLCERTPASSWD: 'client01 crt example pass phrase'
         - REST:
