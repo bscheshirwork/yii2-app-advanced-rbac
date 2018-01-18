@@ -12,11 +12,15 @@ modules:
         - Asserts
         - \api\tests\Helper\Functional
         # add a framework module here
-        - REST:
-            url: v1/
-            depends: Yii2
         - \bscheshirwork\Codeception\Module\DbYii2Config:
             dump: ../common/tests/_data/dump.sql #relative path from "codeception.yml"
             populate: true
             cleanup: true
-        - Yii2
+        - REST:
+            url: v1/
+            depends: Yii2 # module with depends of Yii2 will be set after module DbYii2Config
+        - Yii2:
+            cleanup: true # remove fixture in Module\Yii2::_after and load fixture in  Module\Yii2::_before. In this case data from fixtures insert to db AFTER DbYii2Config populate
+            #transaction: false # true = SQLSTATE[42000]: Syntax error or access violation: 1305 SAVEPOINT LEVEL1 does not exist
+            transaction: true # enable directly
+            forceLoadFixtures: true

@@ -17,3 +17,31 @@ modules:
     config:
         Yii2:
             configFile: 'config/test-local.php'
+coverage:
+    # from nginx-conf-test/nginx.conf
+    c3_url: https://api.dev:8084/index-test.php
+    # Context stream options are well documented at php.net http://php.net/manual/en/context.php
+    # additional: don't forgot refresh CRL file if you can see "Unable to set local cert chain file"
+    # openssl ca -config /home/dev/projects/docker-yii2-app-advanced-rbac/nginx-conf/ssl/openssl.cnf -gencrl -out /home/dev/projects/docker-yii2-app-advanced-rbac/nginx-conf/ssl/crl.pem
+    # and additional we can restart nginx copy for test
+    # /usr/local/bin/docker-compose -f /home/dev/projects/docker-yii2-app-advanced-rbac/docker-codeception-run/docker-compose.yml restart nginx
+    remote_context_options:
+        ssl:
+            verify_peer: true
+            allow_self_signed: true
+            cafile: /var/www/html/api/tests/_data/ca.crt
+            local_cert: /var/www/html/api/tests/_data/client01.crt
+            local_pk: /var/www/html/api/tests/_data/client01.key
+            #passphrase: 'client01 crt example pass phrase'
+    # redefine `php-code/codeception.yml` for `c3.php`. Relative to `c3.php` dir:
+    remote_config: api/codeception.yml
+    enabled: true
+    include:
+        - common/controllers/*
+        - common/models/*
+        - modules/v1/*
+    exclude:
+        - config/*
+        - rest/*
+        - runtime/*
+        - tests/*
