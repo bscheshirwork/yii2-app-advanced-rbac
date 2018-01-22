@@ -19,8 +19,9 @@ modules:
             configFile: 'config/test-local.php'
 coverage:
     # from nginx-conf-test/nginx.conf
-    c3_url: http://nginx:8081/index-test.php
+    c3_url: http://backend.dev:8081/index-test.php
     # redefine `php-code/codeception.yml` for `c3.php`. Relative to `c3.php` dir:
+    # $config_file = realpath(__DIR__) . DIRECTORY_SEPARATOR . $_SERVER['HTTP_X_CODECEPTION_CODECOVERAGE_CONFIG'];
     remote_config: backend/codeception.yml
     enabled: true
     include:
