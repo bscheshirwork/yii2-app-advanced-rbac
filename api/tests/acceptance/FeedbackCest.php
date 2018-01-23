@@ -30,7 +30,5 @@ class FeedbackCest
         $I->sendPOST('feedback/create', $data);
         $I->seeResponseCodeIs(204);
         $I->seeResponseEquals('');
-
-//        $I->
     }
 }
