@@ -17,7 +17,7 @@ modules:
             populate: true
             cleanup: true
         - REST:
-            url: v1/
+            url: /v1/
             depends: Yii2 # module with depends of Yii2 will be set after module DbYii2Config
         - Yii2:
             cleanup: true # remove fixture in Module\Yii2::_after and load fixture in  Module\Yii2::_before. In this case data from fixtures insert to db AFTER DbYii2Config populate
