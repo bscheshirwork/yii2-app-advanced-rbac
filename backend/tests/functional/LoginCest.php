@@ -13,7 +13,6 @@ use Yii;
  */
 class LoginCest
 {
-
     /**
      * Load fixtures before db transaction begin
      * Called in _before()
