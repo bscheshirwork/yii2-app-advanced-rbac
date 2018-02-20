@@ -10,7 +10,7 @@ use Yii;
 
 class LoginCest
 {
-     /**
+    /**
      * Load fixtures before db transaction begin
      * Called in _before()
      * @see \Codeception\Module\Yii2::_before()
@@ -22,8 +22,8 @@ class LoginCest
         return [
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'user.php'
-            ]
+                'dataFile' => codecept_data_dir() . 'user.php',
+            ],
         ];
     }
 
@@ -61,6 +61,5 @@ class LoginCest
         $page->login($user->email, 'qwerty');
         $I->dontSee(Yii::t('user', 'Login'));
         $I->see($user->username);
-
     }
 }
