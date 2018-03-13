@@ -20,6 +20,16 @@ return [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
           ],
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            // Since version 2.0.12 an array can be specified for loading migrations from multiple sources.
+            'migrationPath' => [
+                '@yii/rbac/migrations/',
+                '@dektrium/user/migrations',
+                '@mdm/admin/migrations',
+                '@app/migrations',
+            ],
+        ],
     ],
     'components' => [
         'log' => [
