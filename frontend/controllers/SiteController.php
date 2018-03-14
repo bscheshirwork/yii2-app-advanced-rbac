@@ -10,6 +10,7 @@ use frontend\models\ContactForm;
  */
 class SiteController extends Controller
 {
+    public $layout = false;
 
     /**
      * @inheritdoc

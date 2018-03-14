@@ -11,6 +11,18 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         'authManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'js'=>[]
+                ],
+                'yii\bootstrap\BootstrapPluginAsset' => [
+                    'js'=>[]
+                ],
+                'yii\bootstrap\BootstrapAsset' => [
+                    'css' => [],
+                ],
+
+            ],
             'class' => 'yii\rbac\DbManager',
             'cache' => 'cache',
         ],
