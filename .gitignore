@@ -34,8 +34,8 @@ phpunit.phar
 # vagrant runtime
 /.vagrant
 
-# wget https://raw.github.com/Codeception/c3/2.0/c3.php
+# rm c3.php && wget https://raw.github.com/Codeception/c3/2.4.0/c3.php
 c3.php
 
-# wget http://codeception.com/codecept.phar
+# rm codecept.phar && wget http://codeception.com/codecept.phar
 codecept.phar
