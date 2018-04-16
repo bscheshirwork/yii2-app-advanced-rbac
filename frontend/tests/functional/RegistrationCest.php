@@ -24,7 +24,7 @@ class RegistrationCest
     public function _fixtures(){
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ];
@@ -68,7 +68,7 @@ class RegistrationCest
 
         $page->register('tester@example.com', 'tester', 'tester');
         $I->see(Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
-        $user = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
+        $user = $I->grabRecord(User::class, ['email' => 'tester@example.com']);
         $I->assertTrue($user->isConfirmed);
 
         $page = new LoginPage($I);
@@ -90,8 +90,8 @@ class RegistrationCest
         $page = new RegistrationPage($I);
         $page->register('tester@example.com', 'tester', 'tester');
         $I->see(Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
-        $user  = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
-        $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRMATION]);
+        $user  = $I->grabRecord(User::class, ['email' => 'tester@example.com']);
+        $token = $I->grabRecord(Token::class, ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRMATION]);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();
         $I->assertArrayHasKey($user->email, $message->getTo());
@@ -113,7 +113,7 @@ class RegistrationCest
         $page = new RegistrationPage($I);
         $page->register('tester@example.com', 'tester');
         $I->see(Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
-        $user = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
+        $user = $I->grabRecord(User::class, ['email' => 'tester@example.com']);
         $I->assertEquals('tester', $user->username);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();

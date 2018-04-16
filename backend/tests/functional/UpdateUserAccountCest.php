@@ -21,7 +21,7 @@ class UpdateUserAccountCest
     public function _fixtures(){
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ];
@@ -51,7 +51,7 @@ class UpdateUserAccountCest
         $I->amGoingTo('try to update user');
         $page->update('userfoobar', 'updated_user@example.com', 'new_pass');
         $I->see(Yii::t('user', 'Account details have been updated'));
-        $I->seeRecord(User::className(), ['username' => 'userfoobar']);
+        $I->seeRecord(User::class, ['username' => 'userfoobar']);
 
         Yii::$app->user->logout();
 
@@ -86,7 +86,7 @@ class UpdateUserAccountCest
         $I->amGoingTo('try to update user');
         $page->update('userfoobar', 'updated_user@example.com', 'new_pass');
         $I->see(Yii::t('user', 'Account details have been updated'));
-        $I->seeRecord(User::className(), ['username' => 'userfoobar']);
+        $I->seeRecord(User::class, ['username' => 'userfoobar']);
 
         Yii::$app->user->logout();
 

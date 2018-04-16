@@ -25,11 +25,11 @@ class RecoveryCest
     public function _fixtures(){
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ],
             'token' => [
-                'class' => TokenFixture::className(),
+                'class' => TokenFixture::class,
                 'dataFile' => codecept_data_dir() . 'token.php'
             ],
         ];
@@ -55,8 +55,8 @@ class RecoveryCest
         $user = $I->grabFixture('user', 'user');
         $page->recover($user->email);
         $I->see(Yii::t('user', 'An email has been sent with instructions for resetting your password'));
-        $user = $I->grabRecord(User::className(), ['email' => $user->email]);
-        $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_RECOVERY]);
+        $user = $I->grabRecord(User::class, ['email' => $user->email]);
+        $token = $I->grabRecord(Token::class, ['user_id' => $user->id, 'type' => Token::TYPE_RECOVERY]);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();
         $I->assertArrayHasKey($user->email, $message->getTo());
@@ -64,13 +64,13 @@ class RecoveryCest
 
         $I->amGoingTo('reset password with invalid token');
         $user = $I->grabFixture('user', 'user_with_expired_recovery_token');
-        $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_RECOVERY]);
+        $token = $I->grabRecord(Token::class, ['user_id' => $user->id, 'type' => Token::TYPE_RECOVERY]);
         $resetPage->check(['id' => $user->id, 'code' => $token->code]);
         $I->see(Yii::t('user', 'Recovery link is invalid or expired. Please try requesting a new one.'));
 
         $I->amGoingTo('reset password');
         $user = $I->grabFixture('user', 'user_with_recovery_token');
-        $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_RECOVERY]);
+        $token = $I->grabRecord(Token::class, ['user_id' => $user->id, 'type' => Token::TYPE_RECOVERY]);
         $resetPage->reset('newpass', ['id' => $user->id, 'code' => $token->code]);
         $I->see(Yii::t('user', 'Your password has been changed successfully.'));
 

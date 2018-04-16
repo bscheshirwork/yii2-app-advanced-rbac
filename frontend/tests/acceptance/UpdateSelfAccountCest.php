@@ -23,11 +23,11 @@ class UpdateSelfAccountCest
     public function _fixtures(){
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ],
             'profile' => [
-                'class' => ProfileFixture::className(),
+                'class' => ProfileFixture::class,
                 'dataFile' => codecept_data_dir() . 'profile.php'
             ],
         ];
@@ -61,10 +61,10 @@ class UpdateSelfAccountCest
         $page->update($user->username, 'new_user@example.com', 'qwerty');
         $I->wait(2); // wait for page to be opened
         $I->makeScreenshot('updateSelfAccount_03_email_send');
-        $I->seeRecord(User::className(), ['email' => $user->email, 'unconfirmed_email' => 'new_user@example.com']);
+        $I->seeRecord(User::class, ['email' => $user->email, 'unconfirmed_email' => 'new_user@example.com']);
         $I->see(Yii::t('user', 'A confirmation message has been sent to your new email address'));
-        $user = $I->grabRecord(User::className(), ['id' => $user->id]);
-        $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRM_NEW_EMAIL]);
+        $user = $I->grabRecord(User::class, ['id' => $user->id]);
+        $token = $I->grabRecord(Token::class, ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRM_NEW_EMAIL]);
 
         $I->click($user->username);
         $I->click(Yii::t('main', 'Logout ({username})', ['username' => $user->username]));
@@ -83,7 +83,7 @@ class UpdateSelfAccountCest
         $I->wait(2); // wait for page to be opened
         $I->makeScreenshot('updateSelfAccount_06_login_new_email_success');
         $I->see($user->username);
-        $I->seeRecord(User::className(), [
+        $I->seeRecord(User::class, [
             'id' => 1,
             'email' => 'new_user@example.com',
             'unconfirmed_email' => null,
@@ -94,7 +94,7 @@ class UpdateSelfAccountCest
         $I->wait(2); // wait for page to be opened
         $I->makeScreenshot('updateSelfAccount_07_email_send');
         $I->see(Yii::t('user', 'A confirmation message has been sent to your new email address'));
-        $I->seeRecord(User::className(), [
+        $I->seeRecord(User::class, [
             'id' => 1,
             'email' => 'new_user@example.com',
             'unconfirmed_email' => 'user@example.com',
@@ -103,7 +103,7 @@ class UpdateSelfAccountCest
         $I->wait(2); // wait for page to be opened
         $I->makeScreenshot('updateSelfAccount_08_email_data_revert');
         $I->see(Yii::t('user', 'Your account details have been updated'));
-        $I->seeRecord(User::className(), [
+        $I->seeRecord(User::class, [
             'id' => 1,
             'email' => 'new_user@example.com',
             'unconfirmed_email' => null,
@@ -114,7 +114,7 @@ class UpdateSelfAccountCest
         $I->wait(2); // wait for page to be opened
         $I->makeScreenshot('updateSelfAccount_09_change_data');
         $I->see(Yii::t('user', 'Your account details have been updated'));
-        $I->seeRecord(User::className(), [
+        $I->seeRecord(User::class, [
             'username' => 'nickname',
             'email' => 'new_user@example.com',
         ]);

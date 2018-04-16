@@ -25,11 +25,11 @@ class UpdateSelfAccountCest
     public function _fixtures(){
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ],
             'profile' => [
-                'class' => ProfileFixture::className(),
+                'class' => ProfileFixture::class,
                 'dataFile' => codecept_data_dir() . 'profile.php'
             ],
         ];
@@ -58,10 +58,10 @@ class UpdateSelfAccountCest
 
         $I->amGoingTo('check that email is changing properly');
         $page->update($user->username, 'new_user@example.com', 'qwerty');
-        $I->seeRecord(User::className(), ['email' => $user->email, 'unconfirmed_email' => 'new_user@example.com']);
+        $I->seeRecord(User::class, ['email' => $user->email, 'unconfirmed_email' => 'new_user@example.com']);
         $I->see(Yii::t('user', 'A confirmation message has been sent to your new email address'));
-        $user  = $I->grabRecord(User::className(), ['id' => $user->id]);
-        $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRM_NEW_EMAIL]);
+        $user  = $I->grabRecord(User::class, ['id' => $user->id]);
+        $token = $I->grabRecord(Token::class, ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRM_NEW_EMAIL]);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();
         $I->assertArrayHasKey($user->unconfirmed_email, $message->getTo());
@@ -77,7 +77,7 @@ class UpdateSelfAccountCest
         $user->attemptEmailChange($token->code);
         $loginPage->login('new_user@example.com', 'qwerty');
         $I->see($user->username);
-        $I->seeRecord(User::className(), [
+        $I->seeRecord(User::class, [
             'id' => 1,
             'email' => 'new_user@example.com',
             'unconfirmed_email' => null,
@@ -86,14 +86,14 @@ class UpdateSelfAccountCest
         $I->amGoingTo('reset email changing process');
         $page->update($user->username, 'user@example.com', 'qwerty');
         $I->see(Yii::t('user', 'A confirmation message has been sent to your new email address'));
-        $I->seeRecord(User::className(), [
+        $I->seeRecord(User::class, [
             'id'    => 1,
             'email' => 'new_user@example.com',
             'unconfirmed_email' => 'user@example.com',
         ]);
         $page->update($user->username, 'new_user@example.com', 'qwerty');
         $I->see(Yii::t('user', 'Your account details have been updated'));
-        $I->seeRecord(User::className(), [
+        $I->seeRecord(User::class, [
             'id'    => 1,
             'email' => 'new_user@example.com',
             'unconfirmed_email' => null,
@@ -102,7 +102,7 @@ class UpdateSelfAccountCest
         $I->amGoingTo('change username and password');
         $page->update('nickname', 'new_user@example.com', 'qwerty', '123654');
         $I->see(Yii::t('user', 'Your account details have been updated'));
-        $I->seeRecord(User::className(), [
+        $I->seeRecord(User::class, [
             'username' => 'nickname',
             'email'    => 'new_user@example.com',
         ]);

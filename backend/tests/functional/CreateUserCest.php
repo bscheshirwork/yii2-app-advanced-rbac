@@ -21,7 +21,7 @@ class CreateUserCest
     public function _fixtures(){
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ];
@@ -51,7 +51,7 @@ class CreateUserCest
         $I->amGoingTo('try to create user');
         $page->create('foobar', 'foobar@example.com', 'foobar');
         $I->see(Yii::t('user', 'User has been created'));
-        $I->seeRecord(User::className(), ['username' => 'foobar']);
+        $I->seeRecord(User::class, ['username' => 'foobar']);
 
         Yii::$app->user->logout();
 
