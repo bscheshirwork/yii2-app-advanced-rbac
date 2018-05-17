@@ -22,11 +22,11 @@ class ConfirmationCest
     public function _fixtures(){
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ],
             'token' => [
-                'class' => TokenFixture::className(),
+                'class' => TokenFixture::class,
                 'dataFile' => codecept_data_dir() . 'token.php'
             ],
         ];
@@ -49,8 +49,8 @@ class ConfirmationCest
         $token = $I->grabFixture('token', 'confirmation');
         $page->check(['id' => $token->user_id, 'code' => $token->code]);
         $I->see(Yii::t('user', 'Thank you, registration is now complete.'));
-        $I->dontSeeRecord(Token::className(), ['user_id' => $token->user_id, 'type' => Token::TYPE_CONFIRMATION]);
-        $user = $I->grabRecord(User::className(), ['id' => $token->user_id]);
+        $I->dontSeeRecord(Token::class, ['user_id' => $token->user_id, 'type' => Token::TYPE_CONFIRMATION]);
+        $user = $I->grabRecord(User::class, ['id' => $token->user_id]);
         $I->see($user->username);
     }
 }

@@ -11,7 +11,6 @@ use common\tests\Page\Login as LoginPage;
 use frontend\tests\Page\Registration as RegistrationPage;
 use Yii;
 use yii\helpers\Html;
-use dektrium\user\Module;
 
 class RegistrationCest
 {
@@ -25,7 +24,7 @@ class RegistrationCest
     public function _fixtures(){
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ];
@@ -33,22 +32,24 @@ class RegistrationCest
 
     public function _after(FunctionalTester $I)
     {
-        \Yii::$container->set(Module::className(), [
-            'enableConfirmation'       => true,
-            'enableGeneratingPassword' => false,
-        ]);
+        /** @var \dektrium\user\Module $moduleUser */
+        $moduleUser = \Yii::$app->getModule('user');
+        $moduleUser->enableConfirmation = true;
+        $moduleUser->enableGeneratingPassword = false;
     }
 
     /**
      * Tests registration with email, username and password without any confirmation.
      * @param FunctionalTester $I
+     * @throws \yii\base\InvalidConfigException
      */
     public function testRegistration(FunctionalTester $I)
     {
-        \Yii::$container->set(Module::className(), [
-            'enableConfirmation'       => false,
-            'enableGeneratingPassword' => false,
-        ]);
+        /** @var \dektrium\user\Module $moduleUser */
+        $moduleUser = \Yii::$app->getModule('user');
+        $moduleUser->enableConfirmation = false;
+        $moduleUser->enableGeneratingPassword = false;
+
         $model = \Yii::createObject(RegistrationForm::className());
         $page = new RegistrationPage($I);
 
@@ -67,7 +68,7 @@ class RegistrationCest
 
         $page->register('tester@example.com', 'tester', 'tester');
         $I->see(Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
-        $user = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
+        $user = $I->grabRecord(User::class, ['email' => 'tester@example.com']);
         $I->assertTrue($user->isConfirmed);
 
         $page = new LoginPage($I);
@@ -82,14 +83,15 @@ class RegistrationCest
      */
     public function testRegistrationWithConfirmation(FunctionalTester $I)
     {
-        \Yii::$container->set(Module::className(), [
-            'enableConfirmation' => true,
-        ]);
+        /** @var \dektrium\user\Module $moduleUser */
+        $moduleUser = \Yii::$app->getModule('user');
+        $moduleUser->enableConfirmation = true;
+
         $page = new RegistrationPage($I);
         $page->register('tester@example.com', 'tester', 'tester');
         $I->see(Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
-        $user  = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
-        $token = $I->grabRecord(Token::className(), ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRMATION]);
+        $user  = $I->grabRecord(User::class, ['email' => 'tester@example.com']);
+        $token = $I->grabRecord(Token::class, ['user_id' => $user->id, 'type' => Token::TYPE_CONFIRMATION]);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();
         $I->assertArrayHasKey($user->email, $message->getTo());
@@ -103,20 +105,20 @@ class RegistrationCest
      */
     public function testRegistrationWithoutPassword(FunctionalTester $I)
     {
-        \Yii::$container->set(Module::className(), [
-            'enableConfirmation'       => false,
-            'enableGeneratingPassword' => true,
-        ]);
+        /** @var \dektrium\user\Module $moduleUser */
+        $moduleUser = \Yii::$app->getModule('user');
+        $moduleUser->enableConfirmation = false;
+        $moduleUser->enableGeneratingPassword = true;
+
         $page = new RegistrationPage($I);
         $page->register('tester@example.com', 'tester');
         $I->see(Yii::t('user', 'Your account has been created and a message with further instructions has been sent to your email'));
-        $user = $I->grabRecord(User::className(), ['email' => 'tester@example.com']);
+        $user = $I->grabRecord(User::class, ['email' => 'tester@example.com']);
         $I->assertEquals('tester', $user->username);
         /** @var yii\swiftmailer\Message $message */
         $message = $I->grabLastSentEmail();
         $I->assertArrayHasKey($user->email, $message->getTo());
         $I->assertContains(Yii::t('user', 'We have generated a password for you'), quoted_printable_decode($message->getSwiftMessage()->toString()));
     }
-
 
 }
