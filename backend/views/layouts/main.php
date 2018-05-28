@@ -35,66 +35,10 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' =>  Yii::t('main', 'Home'), 'url' => ['/site/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' =>  Yii::t('main', 'Login'), 'url' => ['/user/security/login']];
-    } else {
-        if (Yii::$app->user->can('administrateRbac')) {
-            $menuItems[] = [
-                'label' => 'RBAC',
-                'options' => ['class' => 'header'],
-                'url' => '#',
-                'items' => [
-                    [
-                        'label' =>  Yii::t('main', 'Graphical representation'),
-                        'url' => ['/rbac'],
-                        'linkOptions' => ['target' => '_blank'],
-                    ],
-                    ['label' =>  Yii::t('main', 'Administrate'), 'url' => ['/admin']],
-                    ['label' =>  Yii::t('main', 'Routes'), 'url' => ['/admin/route']],
-                    ['label' =>  Yii::t('main', 'Permissions'), 'url' => ['/admin/permission']],
-                    ['label' =>  Yii::t('main', 'Menu'), 'url' => ['/admin/menu']],
-                    ['label' =>  Yii::t('main', 'Roles'), 'url' => ['/admin/role']],
-                ],
-            ];
-        }
 
-        if (Yii::$app->user->can('administrateUser')) {
-            $menuItems[] = ['label' => 'Users', 'url' => ['/user/admin/index']];
-        }
-
-        $menuItems[] = [
-            'label' => Yii::$app->user->identity->username,
-            'options' => ['class' => 'header'],
-            'url' => '#',
-            'items' => [
-                ['label' => Yii::$app->user->identity->username, 'options' => ['class' => 'header']],
-                ['label' =>  Yii::t('main', 'Profile'), 'url' => ['/user/settings/profile']],
-                ['label' =>  Yii::t('main', 'Account'), 'url' => ['/user/settings/account']],
-                '<li>'
-                . Html::beginForm(['/user/security/logout'], 'post')
-                . Html::submitButton(
-                    Yii::t('main', 'Logout ({username})', ['username' => Yii::$app->user->identity->username]),
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>',
-            ],
-        ];
-
-        if (Yii::$app->session->has(\dektrium\user\controllers\AdminController::ORIGINAL_USER_SESSION_KEY)){
-            $menuItems[] = '<li>' . Html::beginForm(['/user/admin/switch'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton('<span class="glyphicon glyphicon-user"></span> ' . Yii::t('main', 'Back to original user'),
-                    ['class' => 'btn btn-link']
-                ) . Html::endForm() . '</li>';
-
-        }
-    }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
+        'items' => backend\views\LayoutHelper::menuItems(),
     ]);
     NavBar::end();
     ?>

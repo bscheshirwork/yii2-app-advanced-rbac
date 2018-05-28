@@ -27,6 +27,18 @@ return [
                         ],
                     ],
                 ],
+                'security' => [
+                    'class' => \dektrium\user\controllers\SecurityController::class,
+                    'layout' => '@backend/views/layouts-admin-lte/layouts/min-login',
+                ],
+                'recovery' => [
+                    'class' => \dektrium\user\controllers\RecoveryController::class,
+                    'layout' => '@backend/views/layouts-admin-lte/layouts/min-login',
+                ],
+                'registration' => [
+                    'class' => \dektrium\user\controllers\RegistrationController::class,
+                    'layout' => '@backend/views/layouts-admin-lte/layouts/min-login',
+                ],
             ],
         ],
         'rbac' => [
@@ -79,6 +91,46 @@ return [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],
+            ],
+        ],
+        'assetManager' => [
+            'bundles' => [
+                'dmstr\web\AdminLteAsset' => [
+                    'skin' => ($skins = [
+                        "skin-blue",
+                        "skin-black",
+                        "skin-red",
+                        "skin-yellow",
+                        "skin-purple",
+                        "skin-green",
+                        "skin-blue-light",
+                        "skin-black-light",
+                        "skin-red-light",
+                        "skin-yellow-light",
+                        "skin-purple-light",
+                        "skin-green-light",
+                    ])[array_rand($skins)],
+                ],
+                'insolita\wgadminlte\JsCookieAsset' => [
+                    'depends' => [
+                        'yii\web\YiiAsset',
+                        'dmstr\web\AdminLteAsset',
+                    ],
+                ],
+                'insolita\wgadminlte\CollapseBoxAsset' => [
+                    'depends' => [
+                        'insolita\wgadminlte\JsCookieAsset',
+                    ],
+                ],
+            ],
+        ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@backend/views/layouts-admin-lte',
+                    '@dektrium/user/views/security' => '@backend/views/layouts-admin-lte/security',
+                    '@dektrium/user/views/settings' => '@backend/views/layouts-admin-lte/settings',
                 ],
             ],
         ],
