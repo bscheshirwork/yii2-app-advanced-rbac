@@ -6,12 +6,12 @@
  */
 
 /**
- * @var dektrium\user\Module $module
+ * @var dektrium\user\Module|yii\base\Module $module
  */
 
 ?>
 
-<?php if ($module->enableFlashMessages): ?>
+<?php if ($module->enableFlashMessages ?? true): ?>
     <div class="row">
         <div class="col-xs-12">
             <?= \insolita\wgadminlte\FlashAlerts::widget([

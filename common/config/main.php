@@ -26,6 +26,7 @@ return [
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
+            'enableFlashMessages' => false, // catch flashMessages in main template
             'modelMap' => [
                 'User' => [
                     'class' => 'dektrium\user\models\User',

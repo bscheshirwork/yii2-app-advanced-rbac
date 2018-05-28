@@ -125,12 +125,14 @@ dmstr\web\AdminLteAsset::register($this);
         <section class="content-header">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                'options' => ['class' => 'breadcrumb', 'style' => 'position: relative; top: 0px;']
             ]) ?>
         </section>
 
         <!-- Main content -->
 
         <section class="content">
+            <?= $this->render('/messages/_alert') ?>
             <?= $content ?>
         </section>
         <!-- /.content -->

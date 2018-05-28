@@ -38,6 +38,7 @@ dmstr\web\AdminLteAsset::register($this);
 
 <!-- Main content -->
 <section class="content">
+    <?= $this->render('/messages/_alert') ?>
     <?= $content ?>
 </section>
 <!-- /.content -->

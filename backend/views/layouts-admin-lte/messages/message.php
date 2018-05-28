@@ -7,10 +7,8 @@
 /**
  * @var yii\web\View $this
  * @var string $title
- * @var dektrium\user\Module $module
+ * @var dektrium\user\Module|yii\base\Module $module
  */
 
 $this->title = $title;
-?>
-
-<?= $this->render('/_alert', ['module' => $module]);
+echo $this->render('/_alert', ['module' => $module]);

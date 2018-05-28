@@ -33,6 +33,17 @@ return [
                 ],
                 'recovery' => [
                     'class' => \dektrium\user\controllers\RecoveryController::class,
+                    'on ' . \dektrium\user\controllers\RecoveryController::EVENT_AFTER_REQUEST => function (\dektrium\user\events\FormEvent $event) {
+                        \Yii::$app->controller->redirect(['/user/login']);
+                        \Yii::$app->end();
+                    },
+                    'on ' . \dektrium\user\controllers\RecoveryController::EVENT_AFTER_RESET => function (\dektrium\user\events\ResetPasswordEvent $event) {
+                        if ($event->token->user ?? false) {
+                            \Yii::$app->user->login($event->token->user);
+                        }
+                        \Yii::$app->controller->redirect(\Yii::$app->getUser()->getReturnUrl());
+                        \Yii::$app->end();
+                    },
                     'layout' => '@backend/views/layouts-admin-lte/layouts/min-login',
                 ],
                 'registration' => [
@@ -130,7 +141,8 @@ return [
                 'pathMap' => [
                     '@app/views' => '@backend/views/layouts-admin-lte',
                     '@dektrium/user/views/security' => '@backend/views/layouts-admin-lte/security',
-                    '@dektrium/user/views/settings' => '@backend/views/layouts-admin-lte/settings',
+                    '@dektrium/user/views' => '@backend/views/layouts-admin-lte/messages',
+                    '@dektrium/user/views/messages' => '@backend/views/layouts-admin-lte/messages',
                 ],
             ],
         ],
