@@ -48,6 +48,14 @@ return [
                 ],
                 'registration' => [
                     'class' => \dektrium\user\controllers\RegistrationController::class,
+                    'on ' . \dektrium\user\controllers\RegistrationController::EVENT_AFTER_REGISTER => function (\dektrium\user\events\FormEvent $event) {
+                        \Yii::$app->controller->redirect(['/user/login']);
+                        \Yii::$app->end();
+                    },
+                    'on ' . \dektrium\user\controllers\RegistrationController::EVENT_AFTER_RESEND => function (\dektrium\user\events\FormEvent $event) {
+                        \Yii::$app->controller->redirect(['/user/login']);
+                        \Yii::$app->end();
+                    },
                     'layout' => '@backend/views/layouts-admin-lte/layouts/min-login',
                 ],
             ],
