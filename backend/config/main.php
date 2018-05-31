@@ -142,7 +142,6 @@ return [
                     '@app/views' => '@backend/views/layouts-admin-lte',
                     '@dektrium/user/views/security' => '@backend/views/layouts-admin-lte/security',
                     '@dektrium/user/views' => '@backend/views/layouts-admin-lte/messages',
-                    '@dektrium/user/views/messages' => '@backend/views/layouts-admin-lte/messages',
                 ],
             ],
         ],

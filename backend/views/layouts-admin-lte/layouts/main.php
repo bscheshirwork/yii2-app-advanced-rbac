@@ -132,7 +132,7 @@ dmstr\web\AdminLteAsset::register($this);
         <!-- Main content -->
 
         <section class="content">
-            <?= $this->render('/messages/_alert') ?>
+            <?= $this->render('@app/views/messages/_alert') ?>
             <?= $content ?>
         </section>
         <!-- /.content -->
