@@ -9,7 +9,9 @@ settings:
     bootstrap: _bootstrap.php
     colors: true
     memory_limit: 1024M
+params:
+    - codeception.php
 modules:
     config:
         Yii2:
-            configFile: 'config/test-merge.php'
+            configFile: '%YII2_BACKEND_CONFIG_LOCATION%'
