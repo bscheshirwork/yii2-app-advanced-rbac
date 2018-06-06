@@ -13,10 +13,12 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+params:
+    - codeception.php
 modules:
     config:
         Yii2:
-            configFile: 'config/test-merge.php'
+            configFile: '%YII2_FRONTEND_CONFIG_LOCATION%'
 coverage:
     # from nginx-conf-test/nginx.conf
     c3_url: http://frontend.dev:8080/index-test.php
