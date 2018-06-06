@@ -16,4 +16,4 @@ extensions:
 modules:
     config:
         Yii2:
-            configFile: 'config/test-local.php'
+            configFile: 'config/test-merge.php'
