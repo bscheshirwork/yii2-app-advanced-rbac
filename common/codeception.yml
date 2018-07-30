@@ -5,17 +5,11 @@ paths:
     output: tests/_output
     data: tests/_data
     support: tests/_support
-    envs: tests/_envs
 settings:
     bootstrap: _bootstrap.php
     colors: true
     memory_limit: 1024M
-extensions:
-    enabled:
-        - Codeception\Extension\RunFailed
-params:
-    - codeception.php
 modules:
     config:
         Yii2:
-            configFile: '%YII2_COMMON_CONFIG_LOCATION%'
+            configFile: 'config/test-merge.php'
