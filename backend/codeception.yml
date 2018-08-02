@@ -16,7 +16,7 @@ extensions:
 modules:
     config:
         Yii2:
-            configFile: 'config/test-local.php'
+            configFile: 'config/codeception-local.php'
 coverage:
     # from nginx-conf-test/nginx.conf
     c3_url: http://backend.dev:8081/index-test.php
