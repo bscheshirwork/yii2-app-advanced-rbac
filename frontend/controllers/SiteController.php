@@ -12,7 +12,7 @@ class SiteController extends Controller
 {
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function actions()
     {
