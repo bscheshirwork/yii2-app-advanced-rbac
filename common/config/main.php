@@ -7,6 +7,11 @@ return [
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'charset' => 'utf8mb4',
+            'enableSchemaCache' => true,
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
